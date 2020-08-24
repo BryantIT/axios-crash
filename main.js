@@ -104,7 +104,30 @@ function transformResponse() {
 
 // ERROR HANDLING
 function errorHandling() {
-  console.log('Error Handling');
+  axios
+    .get('https://jsonplaceholder.typicode.com/todoss', {
+      // validateStatus: function(status) {
+      //   return status < 500; // Reject only if status is greater or equal to 500
+      // }
+    })
+    .then(res => showOutput(res))
+    .catch(err => {
+      if (err.response) {
+        // Server responded with a status other than 200 range
+        console.log(err.response.data);
+        console.log(err.response.status);
+        console.log(err.response.headers);
+
+        if (err.response.status === 404) {
+          alert('Error: Page Not Found');
+        }
+      } else if (err.request) {
+        // Request was made but no response
+        console.error(err.request);
+      } else {
+        console.error(err.message);
+      }
+    });
 }
 
 // CANCEL TOKEN
